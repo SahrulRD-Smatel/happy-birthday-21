@@ -113,6 +113,14 @@
   footer{text-align:center;margin-top:100px;color:#c98aa0;font-size:.9rem;letter-spacing:.12em;line-height:2}
   footer .big{font-size:2rem;color:var(--rose)}
   @media (max-width:560px){#cake3d{height:400px}.letter{padding:28px 22px}}
+  /* love note card (ala love_note.txt) */
+  .lovenote{max-width:640px;margin:0 auto;background:#fff;border:3px solid #e75480;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(231,84,128,.25);text-align:left}
+  .lovenote-head{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#f472b6,#e75480);color:#fff;font-weight:700;padding:.7rem 1.1rem;font-size:.95rem}
+  .lovenote-x{font-size:1.4rem;line-height:1;opacity:.9}
+  .lovenote-body{padding:28px 30px;background-image:repeating-linear-gradient(transparent 0 33px,#ffe1ec 33px 34px);line-height:34px;font-size:1.08rem;color:#5b2333}
+  .lovenote-body p{margin-bottom:34px}
+  .lovenote-sign{margin-top:8px}
+  .lovenote-name{font-family:'Pinyon Script',cursive;font-size:2.1rem;color:var(--rose)}
 </style>
 </head>
 <body>
@@ -130,11 +138,11 @@
       <div class="stage-hint">👆 Geser kue untuk memutar • Klik kue untuk kejutan 💗</div>
     </div>
 
-    <p style="margin-top:22px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;color:var(--soft)">Hari ini adalah harimu. Dua puluh satu tahun yang lalu, dunia kedatangan seseorang yang sampai sekarang masih jadi alasan banyak senyum.</p>
+    <p style="margin-top:22px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;color:var(--soft)">Hari ini adalah harimu, Ruru. Dua puluh satu tahun yang lalu, dunia kedatangan seseorang yang sampai sekarang masih jadi alasan banyak senyum.</p>
     <div class="cta">
       <button class="btn" onclick="rainHearts()">💗 Tabur Hati</button>
       <a href="game.html" style="text-decoration:none"><button class="btn">🎮 Mainkan Quest Ulang Tahun</button></a>
-      <button class="btn ghost" onclick="document.getElementById('surat').scrollIntoView({behavior:'smooth'})">Baca Surat Untukmu ↓</button>
+      <button class="btn ghost" onclick="document.getElementById('surat').scrollIntoView({behavior:'smooth'})">Baca Surat untuk Ruru ↓</button>
     </div>
   </header>
 
@@ -142,17 +150,17 @@
 
   <section id="surat">
     <div class="sec-head">
-      <div class="kicker">SEPOTONG HATI, DITULIS UNTUKMU</div>
-      <h2 class="script">Surat Untukmu</h2>
+      <div class="kicker">SEPOTONG HATI, UNTUK RURU</div>
+      <h2 class="script">Surat untuk Ruru</h2>
     </div>
-    <div class="letter">
-      <div class="tape"></div>
-      <div class="seal">💌</div>
-      <p>Selamat ulang tahun yang ke-21. Di usiamu yang baru ini, aku cuma mau kamu tahu satu hal sederhana: kehadiranmu itu hadiah, bukan cuma hari ini, tapi setiap hari.</p>
-      <p>Kamu itu seperti lagu yang tidak pernah bosan didengar — kadang lembut, kadang heboh, tapi selalu bikin hari terasa lebih hidup. Terima kasih sudah jadi dirimu yang apa adanya: cantik, lucu, dan selalu berhasil bikin sekitar jadi lebih hangat.</p>
-      <p>Di umur 21 ini, semoga semua yang kamu impikan pelan-pelan mendekat. Semoga sehat selalu, dikelilingi orang-orang baik, dan semoga tahun ini memberimu lebih banyak tawa daripada air mata. Kalau suatu hari terasa berat, ingat: ada seseorang yang selalu mendoakanmu diam-diam.</p>
-      <p>Selamat bertambah usia, sayang. Semoga 21 membawamu ke semua hal indah yang pantas kamu dapatkan.</p>
-      <p class="sign script">— dengan cinta, untukmu 💗</p>
+    <div class="lovenote">
+      <div class="lovenote-head"><span>💗 love_note.txt</span><span class="lovenote-x">×</span></div>
+      <div class="lovenote-body">
+        <p>you're really cute no matter what. don't let anyone tell you any different, okay?</p>
+        <p>you make every ordinary day feel special.</p>
+        <p>today and every day, I celebrate you and us.</p>
+        <p class="lovenote-sign">xoxo,<br><span class="lovenote-name">Dhani 💗</span></p>
+      </div>
     </div>
   </section>
 
@@ -194,7 +202,7 @@
 
   <footer>
     <div class="big script">Happy 21st Birthday 💗</div>
-    26 October 2026 • Dibuat dengan cinta, untukmu<br>
+    26 October 2026 • Dibuat dengan cinta, untuk Ruru<br>
     <span style="letter-spacing:.3em">🎀 💗 🎀 💗 🎀</span>
   </footer>
 </div>
