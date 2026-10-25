@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "publicationOrigin": "https://birthdayques-dsvahrzu.manus.game",
+  "title": "The 21st Birthday Magical Quest",
+  "description": "Kejutan ulang tahun ke-21 interaktif dengan tiga misi kecil, karakter chibi, dan surat rahasia romantis.",
+  "defaultCaptions": {
+    "x": "The 21st Birthday Magical Quest — a tiny romantic quest made with love.",
+    "facebook": "Buka kado, selesaikan misi kecil, dan temukan kejutan ulang tahun ke-21.",
+    "reddit": "A romantic coquette-pink birthday quest with a secret letter reveal.",
+    "discord": "🎀 The 21st Birthday Magical Quest"
+  },
+  "assets": {
+    "favicon": {
+      "digest": "sha256:a794ed006c311e724276ff7cb25cc368d3a1b92dec61fb9dae13f3d4a20d0c59",
+      "path": "share/a794ed006c311e724276ff7cb25cc368d3a1b92dec61fb9dae13f3d4a20d0c59.png",
+      "mime": "image/png",
+      "width": 128,
+      "height": 128,
+      "sizeBytes": 1551,
+      "sourcePath": "assets/share/favicon.png"
+    }
+  }
+}

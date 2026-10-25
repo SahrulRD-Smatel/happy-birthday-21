@@ -7,3 +7,15 @@ Website ulang tahun 3D romantis bertema coquette pink — dibuat untuk merayakan
 - `happy-birthday-21.pdf` — kartu ucapan PDF romantis, siap dikirim lewat email
 
 Buka `index.html` langsung, atau aktifkan GitHub Pages dari branch `main` untuk link publik.
+
+## Tiga pengalaman yang saling terhubung
+
+- `index.html` adalah halaman utama dan pintu masuk.
+- `game.html` adalah **Game 1 — Quest HTML** yang sudah ada.
+- `manus/index.html` adalah **Game 2 — Secret Quest Manus**, hasil build terbaru dari proyek Manus.
+
+Dari halaman utama, Game 2 sengaja dikunci dengan mini-gate. Masukkan nama kode `Dhani` untuk membuka `manus/index.html`. Build Manus memakai path relatif sehingga tetap bekerja di GitHub Pages pada subfolder `/manus/`.
+
+## Deploy GitHub Pages
+
+Aktifkan **Settings → Pages → Source: Deploy from a branch**, pilih branch `main` dan folder `/ (root)`. Setelah push ke `main`, buka `https://sahrulrd-smatel.github.io/happy-birthday-21/`.

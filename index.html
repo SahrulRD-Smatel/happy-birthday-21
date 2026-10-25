@@ -121,6 +121,21 @@
   .lovenote-body p{margin-bottom:34px}
   .lovenote-sign{margin-top:8px}
   .lovenote-name{font-family:'Pinyon Script',cursive;font-size:2.1rem;color:var(--rose)}
+
+  /* connected game gate */
+  .manus-gate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(91,35,51,.42);backdrop-filter:blur(8px)}
+  .manus-gate[hidden]{display:none}
+  .manus-gate-card{position:relative;width:min(430px,100%);padding:30px 24px 26px;border:3px solid #ffc2d8;border-radius:28px;background:#fffafb;box-shadow:0 28px 80px rgba(91,35,51,.3);text-align:center}
+  .manus-gate-card::before{content:"🎀";position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:2.4rem}
+  .manus-gate-card h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:#be185d;margin-bottom:9px}
+  .manus-gate-card p{color:#8a5a6b;line-height:1.65;margin-bottom:18px}
+  .manus-gate-card form{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .manus-gate-card input{flex:1 1 190px;min-width:0;border:2px solid #ffc2d8;border-radius:999px;padding:13px 16px;font:600 1rem 'Quicksand',sans-serif;color:#5b2333;background:#fff;outline:none;text-align:center}
+  .manus-gate-card input:focus{border-color:#e75480;box-shadow:0 0 0 4px rgba(244,114,182,.18)}
+  .manus-gate-card .gate-message{min-height:1.5em;margin:15px 0 0;color:#be185d;font-weight:700;font-size:.9rem}
+  .manus-gate-close{position:absolute;right:13px;top:10px;border:0;background:transparent;color:#be185d;font-size:1.5rem;cursor:pointer}
+  .manus-gate-hint{font-size:.78rem!important;letter-spacing:.08em;margin:13px 0 0!important;color:#c98aa0!important}
+
 </style>
 </head>
 <body>
@@ -141,7 +156,8 @@
     <p style="margin-top:22px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;color:var(--soft)">Hari ini adalah harimu, Ruru. Dua puluh satu tahun yang lalu, dunia kedatangan seseorang yang sampai sekarang masih jadi alasan banyak senyum.</p>
     <div class="cta">
       <button class="btn" onclick="rainHearts()">💗 Tabur Hati</button>
-      <a href="game.html" style="text-decoration:none"><button class="btn">🎮 Mainkan Quest Ulang Tahun</button></a>
+      <a href="game.html" style="text-decoration:none"><button class="btn">🎮 Game 1 — Mainkan Quest HTML</button></a>
+      <button class="btn ghost" id="openManusGate" type="button">🔐 Game 2 — Secret Quest Manus</button>
       <button class="btn ghost" onclick="document.getElementById('surat').scrollIntoView({behavior:'smooth'})">Baca Surat untuk Ruru ↓</button>
     </div>
   </header>
@@ -419,6 +435,50 @@ document.addEventListener('mousemove', (e)=>{
     canvas.style.display = 'none';
     fallback.style.display = 'block';
   }
+})();
+</script>
+
+<div class="manus-gate" id="manusGate" hidden>
+  <div class="manus-gate-card" role="dialog" aria-modal="true" aria-labelledby="manusGateTitle">
+    <button class="manus-gate-close" id="closeManusGate" type="button" aria-label="Tutup">×</button>
+    <h3 id="manusGateTitle">Eits… masih rahasia ✦</h3>
+    <p>Game 2 belum boleh dibuka sembarang orang.<br>Sebutkan nama kode rahasianya dulu.</p>
+    <form id="manusGateForm">
+      <input id="manusGateInput" autocomplete="off" placeholder="Tulis nama kodenya…" aria-label="Nama kode rahasia">
+      <button class="btn" type="submit">Buka Game 2</button>
+    </form>
+    <p class="gate-message" id="manusGateMessage" aria-live="polite"></p>
+    <p class="manus-gate-hint">Satu nama. Satu secret quest. ✨</p>
+  </div>
+</div>
+<script>
+(function(){
+  const open = document.getElementById('openManusGate');
+  const gate = document.getElementById('manusGate');
+  const close = document.getElementById('closeManusGate');
+  const form = document.getElementById('manusGateForm');
+  const input = document.getElementById('manusGateInput');
+  const message = document.getElementById('manusGateMessage');
+  if(!open || !gate || !close || !form || !input || !message) return;
+  const showGate = () => { gate.hidden = false; message.textContent = ''; input.value = ''; setTimeout(() => input.focus(), 40); };
+  const hideGate = () => { gate.hidden = true; };
+  open.addEventListener('click', showGate);
+  close.addEventListener('click', hideGate);
+  gate.addEventListener('click', event => { if(event.target === gate) hideGate(); });
+  document.addEventListener('keydown', event => { if(event.key === 'Escape' && !gate.hidden) hideGate(); });
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const answer = input.value.trim().toLowerCase().replace(/\s+/g, '');
+    if(answer === 'dhani'){
+      message.textContent = 'Benar ✦ Secret Quest terbuka…';
+      message.style.color = '#be185d';
+      setTimeout(() => { window.location.href = 'manus/index.html'; }, 420);
+    } else {
+      message.textContent = 'Belum tepat. Coba lagi ✦';
+      message.style.color = '#d67ba0';
+      input.select();
+    }
+  });
 })();
 </script>
 </body>

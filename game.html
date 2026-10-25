@@ -127,11 +127,16 @@
   @keyframes floatUp{to{transform:translateY(-130px) scale(1.4) rotate(18deg);opacity:0}}
   footer{margin-top:46px;color:#c98aa0;font-size:.82rem;letter-spacing:.1em;line-height:2}
   footer a{color:var(--rose);font-weight:700;text-decoration:none}
+
+  .back-home{max-width:520px;margin:0 auto 8px;padding:0 18px;font-size:.78rem;letter-spacing:.08em;text-align:left}
+  .back-home a{color:#be185d;font-weight:700;text-decoration:none}
+  .back-home a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
 <div id="flash"></div>
 <div class="game">
+  <div class="back-home"><a href="index.html">← Kembali ke halaman utama</a></div>
   <div class="topbar">
     <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
     <button class="iconbtn" id="musicBtn" aria-label="Musik">🔇</button>
@@ -153,7 +158,7 @@
     </div>
     <div class="dialog">
       <div class="mini">SEPOTONG PESAN UNTUKMU</div>
-      Halo pacarku yang paling cantik! Selamat ulang tahun yang ke-21! Aku udah nyiapin kado spesial buat kamu, tapi kamu harus lewatin beberapa misi kecil dulu. <b>Berani terima tantangan?</b>
+      Halo kamu yang paling cute! Selamat ulang tahun yang ke-21! Aku udah nyiapin kado spesial buat kamu, tapi kamu harus lewatin beberapa misi kecil dulu. <b>Berani terima tantangan?</b>
     </div>
     <button class="btn pulse" id="openBtn">Buka Kadonya! 🎁</button>
   </section>
@@ -260,7 +265,7 @@
 <script>
 /* ================= CHIBI AVATARS (SVG) =================
    Dhani = cowok, sweater krem + dasi pita pink.
-   Birthday Girl = cewek chindo, kulit cerah, rambut pirang pendek, dress pink coquette + pita. */
+   Birthday Girl = cewek berkulit cerah, rambut pirang pendek, dress pink coquette + pita. */
 const DARK = '#5b2333', DEEP = '#e75480';
 function girlFace(kind, blushStrong){
   const blush = blushStrong ? 0.95 : 0.7;
