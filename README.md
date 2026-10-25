@@ -15,6 +15,7 @@ Buka `index.html` langsung, atau aktifkan GitHub Pages dari branch `main` untuk 
 - `manus/index.html` adalah **Game 2 — Secret Quest Manus**, hasil build terbaru dari proyek Manus.
 
 Dari halaman utama, Game 2 sengaja dikunci dengan mini-gate. Masukkan nama kode `Dhani` untuk membuka `manus/index.html`. Build Manus memakai path relatif sehingga tetap bekerja di GitHub Pages pada subfolder `/manus/`.
+Folder `manus/photos/` memakai foto dari folder `assets/` repository, dan `manus/happy-birthday-21.pdf` adalah PDF resmi yang diunduh oleh tombol Surat Rahasia. Penutup love note tetap `xoxo, Dhani`.
 
 ## Deploy GitHub Pages
 
