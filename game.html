@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFB6C1">
+<title>The 21st Birthday Magical Quest 🎀</title>
+<!-- quest v2: chibi avatars Dhani + Birthday Girl, 5 layar, haptik, audio Web Audio, PDF jsPDF -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{--pink:#FFB6C1;--baby:#F4C2C2;--hot:#f472b6;--rose:#be185d;--deep:#e75480;--ink:#5b2333;--soft:#8a5a6b;--cream:#fffafb}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{font-family:'Quicksand',sans-serif;color:var(--ink);background:var(--cream);min-height:100vh;overflow-x:hidden;
+    background-image:radial-gradient(#ffd1e3 2.2px, transparent 2.3px),radial-gradient(#f3e8ff 2px, transparent 2.1px);
+    background-size:56px 56px, 92px 92px;background-position:0 0, 28px 40px}
+  button{touch-action:manipulation;cursor:pointer;font-family:'Quicksand',sans-serif}
+  .script{font-family:'Pinyon Script',cursive}
+  .game{max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom));position:relative}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .dots{display:flex;gap:7px}
+  .dots i{width:10px;height:10px;border-radius:50%;background:#ffd1e3;display:block;transition:.3s}
+  .dots i.on{background:var(--deep);transform:scale(1.35);box-shadow:0 0 10px rgba(231,84,128,.6)}
+  .iconbtn{width:46px;height:46px;border-radius:50%;border:2px solid #ffc2d8;background:#fff;font-size:1.3rem;box-shadow:0 8px 18px rgba(231,84,128,.2)}
+  .screen{display:none;text-align:center}
+  .screen.active{display:block;animation:enter .55s cubic-bezier(.34,1.4,.64,1) both}
+  @keyframes enter{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+  h1.title{font-size:clamp(2.6rem,11vw,4rem);line-height:1.05;color:var(--rose);transform:rotate(-2deg);
+    text-shadow:2px 0 0 #fff,-2px 0 0 #fff,0 2px 0 #fff,0 -2px 0 #fff,0 10px 26px rgba(231,84,128,.3)}
+  .tag{display:inline-block;background:#fff;border:2px solid #ffc2d8;border-radius:999px;padding:.4rem 1.1rem;font-weight:700;letter-spacing:.16em;font-size:.75rem;color:var(--rose);box-shadow:0 10px 22px rgba(231,84,128,.18)}
+  .dialog{position:relative;background:#fff;border:2px solid #ffd1e3;border-radius:22px;padding:20px 22px;margin:22px auto;box-shadow:0 16px 36px rgba(231,84,128,.16);line-height:1.75;font-size:1rem;max-width:460px;text-align:left}
+  .dialog::before{content:"";position:absolute;top:-12px;left:32px;width:22px;height:22px;background:#fff;border-left:2px solid #ffd1e3;border-top:2px solid #ffd1e3;transform:rotate(45deg)}
+  .dialog b{color:var(--rose)}
+  .dialog .mini{font-size:.8rem;letter-spacing:.2em;color:#d67ba0;font-weight:700;margin-bottom:6px}
+  .btn{display:inline-block;border:0;border-radius:999px;padding:1rem 2.2rem;font-weight:700;font-size:1.05rem;color:#fff;background:linear-gradient(135deg,#f472b6,#e75480);box-shadow:0 14px 30px rgba(231,84,128,.4);transition:transform .15s;min-height:56px}
+  .btn:active{transform:scale(.94)}
+  .btn.pulse{animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 14px 30px rgba(231,84,128,.4);transform:scale(1)}50%{box-shadow:0 14px 40px rgba(231,84,128,.65);transform:scale(1.06)}}
+  .btn.ghost{background:#fff;color:var(--rose);border:2px solid #ffc2d8;box-shadow:0 10px 22px rgba(231,84,128,.15)}
+  .hidden{display:none!important}
+  /* chibi stage */
+  .chibi-stage{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:2px;margin:14px auto 0;max-width:420px}
+  .chibi-stage::before,.chibi-stage::after{position:absolute;font-size:1.3rem;animation:tw 2s ease-in-out infinite}
+  .chibi-stage::before{content:"✨";top:6px;left:8px}
+  .chibi-stage::after{content:"💗";top:26px;right:10px;animation-delay:1s}
+  @keyframes tw{0%,100%{transform:scale(.8);opacity:.5}50%{transform:scale(1.25);opacity:1}}
+  .chibi{width:46%;max-width:180px;animation:bob 3s ease-in-out infinite}
+  .chibi:nth-child(2){animation-delay:.6s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .chibi-label{text-align:center;font-weight:700;font-size:.8rem;letter-spacing:.12em;color:var(--rose);margin-top:-6px}
+  /* gift box */
+  .aura{position:relative;width:230px;height:230px;margin:20px auto 8px}
+  .aura::before{content:"";position:absolute;inset:-18px;border-radius:50%;background:radial-gradient(circle,#ffc2d8 0%,transparent 65%);animation:glow 2s ease-in-out infinite}
+  @keyframes glow{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.18);opacity:1}}
+  .gift{position:relative;width:170px;height:150px;margin:40px auto 0;animation:float 2.6s ease-in-out infinite;transition:transform .5s}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+  .gift .box{position:absolute;bottom:0;left:0;width:170px;height:110px;background:linear-gradient(135deg,#ffb6c1,#f472b6);border-radius:14px;box-shadow:0 18px 30px rgba(231,84,128,.35);border:3px solid #fff}
+  .gift .lid{position:absolute;top:-4px;left:-10px;width:190px;height:52px;background:linear-gradient(135deg,#f9a8c9,#e75480);border-radius:14px;border:3px solid #fff;box-shadow:0 10px 20px rgba(231,84,128,.3);transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .5s;z-index:2}
+  .gift .ribbon-v{position:absolute;left:50%;top:-8px;bottom:0;width:26px;transform:translateX(-50%);background:#fff;border-radius:8px;z-index:3;opacity:.9}
+  .gift .bow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:3rem;z-index:4;transition:transform .7s}
+  .gift.open .lid{transform:translateY(-90px) rotate(-24deg);opacity:0}
+  .gift.open .bow{transform:translateX(-50%) translateY(-70px) scale(1.4)}
+  .gift.open{animation:none}
+  /* memory cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+  .card{perspective:700px;cursor:pointer;aspect-ratio:3/4.2}
+  .card .inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.34,1.3,.64,1)}
+  .card.flipped .inner{transform:rotateY(180deg)}
+  .card .face{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;overflow:hidden;box-shadow:0 14px 28px rgba(231,84,128,.25);border:3px solid #fff}
+  .card .back{background:linear-gradient(135deg,#ffb6c1,#f472b6);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:2.2rem;gap:6px}
+  .card .back span{font-size:.6rem;letter-spacing:.25em;font-weight:700}
+  .card .front{transform:rotateY(180deg)}
+  .card .front img{width:100%;height:100%;object-fit:cover;display:block}
+  .card .front::after{content:"💗";position:absolute;bottom:8px;right:10px;font-size:1.2rem;text-shadow:0 2px 6px rgba(0,0,0,.25)}
+  /* cake */
+  .cake-wrap{position:relative;width:250px;margin:30px auto 6px}
+  .cake .tier{margin:0 auto;border:3px solid #fff;box-shadow:0 12px 24px rgba(231,84,128,.25);position:relative}
+  .cake .t1{width:220px;height:64px;background:#f9a8c9;border-radius:14px}
+  .cake .t2{width:165px;height:58px;background:#fff5f7;border-radius:14px}
+  .cake .t3{width:112px;height:52px;background:#f472b6;border-radius:14px}
+  .cake .tier::before{content:"";position:absolute;top:0;left:0;right:0;height:16px;background:rgba(255,255,255,.75);border-radius:14px 14px 40% 40%}
+  .plate{width:260px;height:16px;background:#fff;border:3px solid #ffc2d8;border-radius:50%;margin:2px auto 0;box-shadow:0 10px 20px rgba(231,84,128,.2)}
+  .candles{display:flex;justify-content:center;gap:26px;margin-bottom:-4px;position:relative;z-index:2}
+  .candle{width:12px;height:52px;border-radius:6px;position:relative}
+  .candle:nth-child(1){background:repeating-linear-gradient(45deg,#f472b6 0 8px,#fff 8px 16px)}
+  .candle:nth-child(2){background:repeating-linear-gradient(45deg,#c084fc 0 8px,#fff 8px 16px)}
+  .candle:nth-child(3){background:repeating-linear-gradient(45deg,#fda4af 0 8px,#fff 8px 16px)}
+  .flame{position:absolute;top:-24px;left:50%;width:18px;height:26px;transform:translateX(-50%);background:radial-gradient(circle at 50% 70%,#fff7cc,#ffb347 55%,#ff7a18);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;transform-origin:50% 100%;animation:flick 0.5s ease-in-out infinite alternate;transition:transform .4s,opacity .4s}
+  @keyframes flick{from{transform:translateX(-50%) scale(1) rotate(-3deg)}to{transform:translateX(-50%) scale(1.12,1.25) rotate(3deg)}}
+  .cake-wrap.flicker .flame{animation-duration:.18s}
+  .cake-wrap.small .flame{transform:translateX(-50%) scale(.45)}
+  .cake-wrap.out .flame{opacity:0;transform:translateX(-50%) scale(0)}
+  .smoke{position:absolute;top:-34px;left:50%;transform:translateX(-50%);font-size:1.2rem;opacity:0;transition:opacity .5s}
+  .cake-wrap.out .smoke{opacity:.9;animation:smokeUp 1.4s ease-out infinite}
+  @keyframes smokeUp{from{transform:translateX(-50%) translateY(0);opacity:.9}to{transform:translateX(-50%) translateY(-22px);opacity:0}}
+  /* trick zone */
+  .trick-zone{position:relative;min-height:230px;margin-top:24px}
+  .trick-zone .btn{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
+  .trick-zone #yesBtn{top:0}
+  .trick-zone #noBtn{top:96px;background:#fff;color:var(--soft);border:2px solid #ffd1e3;box-shadow:0 10px 22px rgba(231,84,128,.15)}
+  .tease{min-height:1.6em;font-weight:700;color:var(--rose);margin-top:10px}
+  /* final */
+  .frame{position:relative;max-width:340px;margin:6px auto 0;background:#fff;padding:14px 14px 18px;border-radius:24px;border:3px solid #ffc2d8;box-shadow:0 24px 50px rgba(231,84,128,.3);animation:floatY 3.2s ease-in-out infinite}
+  @keyframes floatY{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+  .frame::before,.frame::after{content:"🎀";position:absolute;font-size:2rem;z-index:2}
+  .frame::before{top:-18px;left:-12px;transform:rotate(-18deg)}
+  .frame::after{bottom:-18px;right:-12px;transform:rotate(14deg)}
+  .frame img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:16px;display:block;background:#ffe4ef}
+  .frame figcaption{font-family:'Playfair Display',serif;font-style:italic;color:var(--soft);margin-top:12px}
+  .letter{white-space:pre-line}
+  .mini-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+  .mini-gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:3px solid #fff;box-shadow:0 10px 20px rgba(231,84,128,.2);background:#ffe4ef}
+  #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:99;transition:opacity .3s}
+  #flash.on{opacity:.95}
+  .burst{position:fixed;z-index:50;pointer-events:none;font-size:1.6rem;animation:floatUp 1.1s ease-out forwards}
+  @keyframes floatUp{to{transform:translateY(-130px) scale(1.4) rotate(18deg);opacity:0}}
+  footer{margin-top:46px;color:#c98aa0;font-size:.82rem;letter-spacing:.1em;line-height:2}
+  footer a{color:var(--rose);font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+<div id="flash"></div>
+<div class="game">
+  <div class="topbar">
+    <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <button class="iconbtn" id="musicBtn" aria-label="Musik">🔇</button>
+  </div>
+
+  <!-- SCREEN 1 -->
+  <section class="screen active" id="s1">
+    <span class="tag">🎀 SPECIAL DELIVERY 🎀</span>
+    <h1 class="title script" style="margin-top:16px">For The Most<br>Beautiful Girl!</h1>
+    <p style="margin-top:12px;font-weight:700;letter-spacing:.3em;color:var(--soft)">26 OCTOBER 2026</p>
+    <div class="chibi-stage" id="chibiStage1"></div>
+    <div class="aura">
+      <div class="gift" id="gift">
+        <div class="bow">🎀</div>
+        <div class="lid"></div>
+        <div class="ribbon-v"></div>
+        <div class="box"></div>
+      </div>
+    </div>
+    <div class="dialog">
+      <div class="mini">SEPOTONG PESAN UNTUKMU</div>
+      Halo pacarku yang paling cantik! Selamat ulang tahun yang ke-21! Aku udah nyiapin kado spesial buat kamu, tapi kamu harus lewatin beberapa misi kecil dulu. <b>Berani terima tantangan?</b>
+    </div>
+    <button class="btn pulse" id="openBtn">Buka Kadonya! 🎁</button>
+  </section>
+
+  <!-- SCREEN 2 -->
+  <section class="screen" id="s2">
+    <span class="tag">🎀 MISI PERTAMA 🎀</span>
+    <h1 class="title script" style="margin-top:14px;font-size:clamp(2.2rem,9vw,3.2rem)">Memory Lane</h1>
+    <div class="chibi-stage" id="chibiStage2"></div>
+    <div class="dialog">
+      <div class="mini">MISI 1 DARI 3</div>
+      Misi Pertama: Buka semua memori cantik ini! <b>(Klik kartunya ya)</b>
+    </div>
+    <div class="cards">
+      <div class="card" data-popup="Wah, bidadari darimana nih? Cantik banget! 😍"><div class="inner"><div class="face back">🎀<span>BUKA AKU</span></div><div class="face front"><img src="assets/foto-1.jpg" alt="Foto cantik 1"></div></div></div>
+      <div class="card" data-popup="Senyum ini nih yang selalu bikin aku jatuh cinta setiap hari. ✨"><div class="inner"><div class="face back">🎀<span>BUKA AKU</span></div><div class="face front"><img src="assets/foto-2.jpg" alt="Foto cantik 2"></div></div></div>
+      <div class="card" data-popup="Definisi sempurna! Nggak kerasa gadisku udah umur 21 tahun. 💖"><div class="inner"><div class="face back">🎀<span>BUKA AKU</span></div><div class="face front"><img src="assets/foto-3.jpg" alt="Foto cantik 3"></div></div></div>
+    </div>
+    <div class="dialog hidden" id="cardPopup"></div>
+    <button class="btn pulse hidden" id="toCake" style="margin-top:20px">Lanjut ➡️</button>
+  </section>
+
+  <!-- SCREEN 3 -->
+  <section class="screen" id="s3">
+    <span class="tag">🎀 MISI KEDUA 🎀</span>
+    <h1 class="title script" style="margin-top:14px;font-size:clamp(2.2rem,9vw,3.2rem)">Make a Wish!</h1>
+    <div class="chibi-stage" id="chibiStage3"></div>
+    <div class="dialog" id="wishDialog">
+      <div class="mini">MISI 2 DARI 3</div>
+      Misi Kedua: Waktunya Make a Wish! Aku udah beliin kue spesial buat kamu. Pejamkan mata, doakan yang terbaik, lalu klik tombol di bawah untuk tiup lilinnya!
+    </div>
+    <div class="cake-wrap" id="cakeWrap">
+      <div class="candles">
+        <div class="candle"><div class="flame"></div><div class="smoke">💨</div></div>
+        <div class="candle"><div class="flame"></div><div class="smoke">💨</div></div>
+        <div class="candle"><div class="flame"></div><div class="smoke">💨</div></div>
+      </div>
+      <div class="cake">
+        <div class="tier t3"></div>
+        <div class="tier t2"></div>
+        <div class="tier t1"></div>
+      </div>
+      <div class="plate"></div>
+    </div>
+    <button class="btn pulse" id="blowBtn" style="margin-top:26px">Tiup Lilin! 🌬️</button>
+    <div><button class="btn hidden" id="toGift" style="margin-top:20px">Lihat Kado Utama ➡️</button></div>
+  </section>
+
+  <!-- SCREEN 4 -->
+  <section class="screen" id="s4">
+    <span class="tag">🎀 MISI TERAKHIR 🎀</span>
+    <h1 class="title script" style="margin-top:14px;font-size:clamp(2.2rem,9vw,3.2rem)">Satu Langkah Lagi!</h1>
+    <div class="chibi-stage" id="chibiStage4"></div>
+    <div class="dialog">
+      <div class="mini">✅ WISH KAMU TEREKAM</div>
+      Sistem berhasil merekam wish kamu! Sekarang, <b>siap untuk lihat kado dan surat yang udah aku siapin?</b>
+    </div>
+    <div class="trick-zone" id="trickZone">
+      <button class="btn pulse" id="yesBtn">SIAP BANGET! 🥰</button>
+      <button class="btn" id="noBtn">Nggak ah, malu 🙈</button>
+    </div>
+    <div class="tease" id="tease"></div>
+  </section>
+
+  <!-- SCREEN 5 -->
+  <section class="screen" id="s5">
+    <span class="tag">🎉 SURPRISE! 🎉</span>
+    <h1 class="title script" style="margin-top:14px">Ini Dia Bonusnya!</h1>
+    <div class="chibi-stage" id="chibiStage5"></div>
+    <figure class="frame">
+      <img src="assets/foto-bonus.jpg" alt="Foto bonus bersama boneka hiu">
+      <figcaption>Kamu &amp; Hiu — duo paling menggemaskan 🦈💖</figcaption>
+    </figure>
+    <div class="dialog" style="margin-top:30px">
+      <div class="mini">💌 SURAT UNTUKMU</div>
+      <div class="letter" id="letterText">SURPRISE! 🎉 Ini dia foto tergoyah dan tergemas abad ini! Kamu sama boneka hiu itu kombinasi yang paling lucu tau nggak? 🦈💖
+
+Selamat ulang tahun yang ke-21 sayang. Bunga, kue, dan semua ini nggak seberapa dibanding bahagianya aku punya kamu. Terima kasih udah jadi pacar chindo-ku yang paling cantik, imut, dan sabar. Tetap jadi gadis manis yang lembut, ceria, dan selalu bikin kangen ya!</div>
+    </div>
+    <button class="btn pulse" id="pdfBtn">Download Surat Rahasia 💌</button>
+    <p id="pdfNote" style="margin-top:10px;font-size:.85rem;color:var(--soft)"></p>
+    <div style="margin-top:30px">
+      <span class="tag">💗 GALERI BONUS 💗</span>
+      <div class="mini-gallery">
+        <img src="assets/foto-4.jpg" alt="Foto cantik 4">
+        <img src="assets/foto-5.jpg" alt="Foto cantik 5">
+        <img src="assets/foto-6.jpg" alt="Foto cantik 6">
+        <img src="assets/foto-7.jpg" alt="Foto cantik 7">
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span style="font-size:1.2rem">🎀 💗 🎀</span><br>
+    The 21st Birthday Magical Quest • 26 October 2026<br>
+    <a href="index.html">← Kembali ke Website Ulang Tahun</a>
+  </footer>
+</div>
+
+<script>
+/* ================= CHIBI AVATARS (SVG) =================
+   Dhani = cowok, sweater krem + dasi pita pink.
+   Birthday Girl = cewek chindo, kulit cerah, rambut pirang pendek, dress pink coquette + pita. */
+const DARK = '#5b2333', DEEP = '#e75480';
+function girlFace(kind, blushStrong){
+  const blush = blushStrong ? 0.95 : 0.7;
+  const eyes = {
+    sparkle: '<ellipse cx="78" cy="104" rx="8" ry="11" fill="'+DARK+'"/><ellipse cx="122" cy="104" rx="8" ry="11" fill="'+DARK+'"/><circle cx="81" cy="100" r="3" fill="#fff"/><circle cx="125" cy="100" r="3" fill="#fff"/><path d="M64,86 l3,7 7,3 -7,3 -3,7 -3,-7 -7,-3 7,-3 z" fill="#ffd93d"/><path d="M128,82 l2.5,6 6,2.5 -6,2.5 -2.5,6 -2.5,-6 -6,-2.5 6,-2.5 z" fill="#ffd93d"/>',
+    open: '<ellipse cx="78" cy="104" rx="8" ry="11" fill="'+DARK+'"/><ellipse cx="122" cy="104" rx="8" ry="11" fill="'+DARK+'"/><circle cx="81" cy="100" r="3" fill="#fff"/><circle cx="125" cy="100" r="3" fill="#fff"/>',
+    closed: '<path d="M66,104 Q78,113 90,104" stroke="'+DARK+'" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M110,104 Q122,113 134,104" stroke="'+DARK+'" stroke-width="3.5" fill="none" stroke-linecap="round"/>',
+    giggle: '<path d="M66,106 Q78,96 90,106" stroke="'+DARK+'" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M110,106 Q122,96 134,106" stroke="'+DARK+'" stroke-width="3.5" fill="none" stroke-linecap="round"/>'
+  }[kind];
+  const mouth = {
+    smile: '<path d="M90,134 Q100,142 110,134" stroke="'+DARK+'" stroke-width="3" fill="none" stroke-linecap="round"/>',
+    openSmile: '<ellipse cx="100" cy="136" rx="9" ry="7" fill="#8a3b4d"/>',
+    laugh: '<path d="M86,132 Q100,150 114,132 Q100,138 86,132 Z" fill="#8a3b4d"/>'
+  };
+  return eyes
+    + '<ellipse cx="60" cy="126" rx="11" ry="6.5" fill="#ffb6c1" opacity="'+blush+'"/>'
+    + '<ellipse cx="140" cy="126" rx="11" ry="6.5" fill="#ffb6c1" opacity="'+blush+'"/>';
+}
+function girlSVG(state){
+  let face, mouth, extra = '';
+  if(state === 1){ face = girlFace('sparkle'); mouth = 'openSmile'; }
+  if(state === 2){ face = girlFace('open', true); mouth = 'smile'; extra = '<circle cx="58" cy="124" r="10" fill="#ffead9" stroke="#f2c9a0" stroke-width="1.5"/><circle cx="142" cy="124" r="10" fill="#ffead9" stroke="#f2c9a0" stroke-width="1.5"/>'; }
+  if(state === 3){ face = girlFace('closed'); mouth = 'smile'; extra = '<circle cx="90" cy="172" r="9" fill="#ffead9" stroke="#f2c9a0" stroke-width="1.5"/><circle cx="110" cy="172" r="9" fill="#ffead9" stroke="#f2c9a0" stroke-width="1.5"/><path d="M92,58 l2,6 6,2 -6,2 -2,6 -2,-6 -6,-2 6,-2 z" fill="#ffd93d"/>'; }
+  if(state === 4){ face = girlFace('giggle'); mouth = 'laugh'; }
+  if(state === 5){
+    face = girlFace('open', true); mouth = 'openSmile';
+    extra = '<g>'
+      + '<ellipse cx="100" cy="186" rx="42" ry="27" fill="#d7dde3"/>'
+      + '<ellipse cx="100" cy="194" rx="27" ry="14" fill="#ffffff"/>'
+      + '<path d="M78,164 L86,148 L96,164 Z" fill="#d7dde3"/>'
+      + '<path d="M138,178 L152,170 L142,190 Z" fill="#d7dde3"/>'
+      + '<circle cx="120" cy="178" r="4.5" fill="#333"/><circle cx="122" cy="176" r="1.5" fill="#fff"/>'
+      + '<circle cx="64" cy="182" r="10" fill="#ffead9" stroke="#f2c9a0" stroke-width="1.5"/>'
+      + '<circle cx="136" cy="182" r="10" fill="#ffead9" stroke="#f2c9a0" stroke-width="1.5"/>'
+      + '</g>';
+  }
+  const mouths = {
+    smile: '<path d="M90,134 Q100,142 110,134" stroke="'+DARK+'" stroke-width="3" fill="none" stroke-linecap="round"/>',
+    openSmile: '<ellipse cx="100" cy="136" rx="9" ry="7" fill="#8a3b4d"/>',
+    laugh: '<path d="M86,132 Q100,150 114,132 Q100,138 86,132 Z" fill="#8a3b4d"/>'
+  };
+  return '<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Birthday Girl chibi">'
+    + '<circle cx="100" cy="98" r="64" fill="#f7c873"/>'
+    + '<circle cx="100" cy="102" r="51" fill="#ffead9"/>'
+    + '<path d="M49,100 C49,54 151,54 151,100 C141,74 121,66 100,66 C79,66 59,74 49,100 Z" fill="#f7c873"/>'
+    + '<path d="M136,52 l6,-8 4,9 9,2 -7,6 2,9 -8,-5 -8,5 2,-9 -7,-6 9,-2 z" fill="'+DEEP+'"/>'
+    + face + mouths[mouth]
+    + '<path d="M72,158 L60,212 Q100,220 140,212 L128,158 Z" fill="#ffb6c1"/>'
+    + '<path d="M72,158 L128,158 L124,176 L76,176 Z" fill="#fff" opacity="0.55"/>'
+    + '<path d="M100,160 L88,150 L88,170 L100,164 L112,170 L112,150 Z" fill="'+DEEP+'"/><circle cx="100" cy="162" r="4" fill="#fff"/>'
+    + extra
+    + '</svg>';
+}
+function boySVG(state){
+  const eyes = '<ellipse cx="82" cy="104" rx="7.5" ry="10" fill="'+DARK+'"/><ellipse cx="118" cy="104" rx="7.5" ry="10" fill="'+DARK+'"/><circle cx="85" cy="100" r="2.6" fill="#fff"/><circle cx="121" cy="100" r="2.6" fill="#fff"/>';
+  const blush = '<ellipse cx="64" cy="124" rx="9" ry="5.5" fill="#ffb6c1" opacity="0.7"/><ellipse cx="136" cy="124" rx="9" ry="5.5" fill="#ffb6c1" opacity="0.7"/>';
+  const smile = state === 1
+    ? '<path d="M90,134 Q102,140 112,132" stroke="'+DARK+'" stroke-width="3" fill="none" stroke-linecap="round"/>'
+    : '<path d="M90,134 Q100,141 110,134" stroke="'+DARK+'" stroke-width="3" fill="none" stroke-linecap="round"/>';
+  let behind = '', front = '';
+  if(state === 4){
+    behind = '<g stroke="#7fb069" stroke-width="3" stroke-linecap="round">'
+      + '<line x1="140" y1="150" x2="152" y2="112"/><line x1="140" y1="150" x2="162" y2="124"/><line x1="140" y1="150" x2="146" y2="104"/>'
+      + '</g>'
+      + '<circle cx="152" cy="106" r="11" fill="#f472b6"/><circle cx="152" cy="106" r="4" fill="#ffd93d"/>'
+      + '<circle cx="164" cy="120" r="10" fill="#ffffff" stroke="#f4c2c2" stroke-width="2"/><circle cx="164" cy="120" r="3.5" fill="#ffd93d"/>'
+      + '<circle cx="144" cy="98" r="9" fill="#ffd93d"/><circle cx="144" cy="98" r="3" fill="#e75480"/>';
+  }
+  if(state === 1){
+    front = '<g><rect x="66" y="152" width="68" height="48" rx="9" fill="#f472b6" stroke="#fff" stroke-width="2.5"/>'
+      + '<rect x="94" y="152" width="12" height="48" fill="#fff" opacity="0.9"/>'
+      + '<ellipse cx="88" cy="148" rx="12" ry="7" fill="'+DEEP+'" transform="rotate(-18 88 148)"/>'
+      + '<ellipse cx="112" cy="148" rx="12" ry="7" fill="'+DEEP+'" transform="rotate(18 112 148)"/>'
+      + '<circle cx="100" cy="148" r="5" fill="#fff"/></g>';
+  }
+  if(state === 2){
+    front = '<g><rect x="60" y="142" width="80" height="54" rx="12" fill="#3f2d20" stroke="#fff" stroke-width="2.5"/>'
+      + '<circle cx="100" cy="169" r="17" fill="#ffb6c1" stroke="#fff" stroke-width="2.5"/><circle cx="100" cy="169" r="9" fill="'+DARK+'"/>'
+      + '<rect x="124" y="148" width="12" height="8" rx="2" fill="#ffd93d"/></g>';
+  }
+  if(state === 3){
+    front = '<g><rect x="70" y="172" width="60" height="15" rx="5" fill="#f9a8c9" stroke="#fff" stroke-width="2"/>'
+      + '<rect x="77" y="158" width="46" height="14" rx="5" fill="#fff5f7" stroke="#fff" stroke-width="2"/>'
+      + '<rect x="85" y="146" width="30" height="12" rx="5" fill="#f472b6" stroke="#fff" stroke-width="2"/>'
+      + '<line x1="95" y1="146" x2="95" y2="136" stroke="#c084fc" stroke-width="3"/><line x1="107" y1="146" x2="107" y2="136" stroke="#fda4af" stroke-width="3"/>'
+      + '<circle cx="95" cy="133" r="3.5" fill="#ffb347"/><circle cx="107" cy="133" r="3.5" fill="#ffb347"/></g>';
+  }
+  if(state === 5){
+    front = '<g transform="rotate(-12 132 168)"><rect x="104" y="148" width="58" height="40" rx="6" fill="#ffffff" stroke="#f4c2c2" stroke-width="2.5"/>'
+      + '<path d="M104,152 L133,172 L162,152" fill="none" stroke="#f4c2c2" stroke-width="2.5"/>'
+      + '<circle cx="133" cy="168" r="7" fill="'+DEEP+'"/></g>';
+  }
+  return '<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dhani chibi">'
+    + behind
+    + '<circle cx="100" cy="102" r="51" fill="#ffdcbb"/>'
+    + '<path d="M49,102 C49,52 151,52 151,102 C146,72 128,60 100,60 C72,60 54,72 49,102 Z" fill="#4a3226"/>'
+    + eyes + blush + smile
+    + '<path d="M72,158 L60,212 Q100,220 140,212 L128,158 Z" fill="#fff6f0" stroke="#f4c2c2" stroke-width="2"/>'
+    + '<path d="M100,158 L90,150 L90,166 L100,162 L110,166 L110,150 Z" fill="'+DEEP+'"/>'
+    + front
+    + '</svg>';
+}
+function chibiPair(scene, boyLabel, girlLabel){
+  return '<div><div class="chibi">' + boySVG(scene) + '</div><div class="chibi-label">' + boyLabel + '</div></div>'
+       + '<div><div class="chibi">' + girlSVG(scene) + '</div><div class="chibi-label">' + girlLabel + '</div></div>';
+}
+document.getElementById('chibiStage1').innerHTML = chibiPair(1, 'DHANI 🤍', 'BIRTHDAY GIRL 🎀');
+document.getElementById('chibiStage2').innerHTML = chibiPair(2, 'DHANI 📸', 'SI PEMALU 💗');
+document.getElementById('chibiStage3').innerHTML = chibiPair(3, 'DHANI 🎂', 'SI PEMBUAT WISH ✨');
+document.getElementById('chibiStage4').innerHTML = chibiPair(4, 'DHANI 💐', 'SI PENGGODA 😝');
+document.getElementById('chibiStage5').innerHTML = chibiPair(5, 'DHANI 💌', 'SI GEMAS 🦈');
+
+/* ================= HELPERS: haptik + audio ================= */
+const vib = p => { try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} };
+const tap = () => vib(15);
+const escapeBuzz = () => vib([50, 30, 50]);
+const victoryPulse = () => vib([100, 50, 100, 50, 200]);
+let AC = null, musicOn = false, musicTimer = null;
+function ac(){
+  if(!AC){ try{ AC = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){} }
+  if(AC && AC.state === 'suspended') AC.resume();
+  return AC;
+}
+function tone(freq, t0, dur, type, vol){
+  const ctx = ac(); if(!ctx) return;
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = type || 'sine'; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(vol || 0.15, t0 + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(t0); o.stop(t0 + dur + 0.05);
+}
+function twinkle(){
+  const ctx = ac(); if(!ctx) return; const t = ctx.currentTime;
+  [1318, 1568, 2093].forEach((f, i) => tone(f, t + i * 0.09, 0.5, 'sine', 0.12));
+}
+function whoosh(){
+  const ctx = ac(); if(!ctx) return;
+  const len = ctx.sampleRate * 0.5, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+  const src = ctx.createBufferSource(); src.buffer = buf;
+  const f = ctx.createBiquadFilter(); f.type = 'bandpass';
+  f.frequency.setValueAtTime(3000, ctx.currentTime);
+  f.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.5);
+  const g = ctx.createGain(); g.gain.value = 0.25;
+  src.connect(f); f.connect(g); g.connect(ctx.destination); src.start();
+}
+function chime(){
+  const ctx = ac(); if(!ctx) return; const t = ctx.currentTime;
+  [523, 659, 784, 1046].forEach((f, i) => tone(f, t + i * 0.12, 1.4, 'triangle', 0.14));
+}
+const CHORDS = [[523,659,784],[440,523,659],[349,440,523],[392,494,587]];
+let chordIdx = 0;
+function bgmBar(){
+  const ctx = ac(); if(!ctx || !musicOn) return; const t = ctx.currentTime;
+  CHORDS[chordIdx % CHORDS.length].forEach((f, i) => tone(f, t + i * 0.35, 0.9, 'sine', 0.045));
+  tone(CHORDS[chordIdx % CHORDS.length][0] / 2, t, 2.2, 'sine', 0.03);
+  chordIdx++;
+}
+const musicBtn = document.getElementById('musicBtn');
+musicBtn.addEventListener('click', () => {
+  ac(); tap();
+  musicOn = !musicOn;
+  musicBtn.textContent = musicOn ? '🔊' : '🔇';
+  if(musicOn){ bgmBar(); musicTimer = setInterval(bgmBar, 2400); }
+  else if(musicTimer){ clearInterval(musicTimer); musicTimer = null; }
+});
+
+/* ================= NAVIGASI LAYAR ================= */
+const screens = ['s1','s2','s3','s4','s5'];
+const dots = document.querySelectorAll('#dots i');
+function showScreen(n){
+  screens.forEach((id, i) => document.getElementById(id).classList.toggle('active', i === n - 1));
+  dots.forEach((d, i) => d.classList.toggle('on', i === n - 1));
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function burstAt(x, y){
+  const hearts = ['💗','💖','💕','🎀','✨'];
+  for(let i = 0; i < 12; i++){
+    const s = document.createElement('span');
+    s.className = 'burst'; s.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    s.style.left = (x + (Math.random() * 110 - 55)) + 'px';
+    s.style.top = (y + (Math.random() * 30 - 15)) + 'px';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1200);
+  }
+}
+const fallStyle = document.createElement('style');
+fallStyle.textContent = '@keyframes fallDown{to{transform:translateY(105vh) rotate(340deg);opacity:.9}}';
+document.head.appendChild(fallStyle);
+function heartRain(){
+  const hearts = ['💗','💖','🎀','✨'];
+  for(let i = 0; i < 36; i++){
+    const s = document.createElement('span');
+    s.className = 'burst'; s.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    s.style.left = Math.random() * 100 + 'vw'; s.style.top = '-20px';
+    s.style.animationDuration = (1.6 + Math.random()) + 's';
+    s.style.animationName = 'fallDown';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 2800);
+  }
+}
+
+/* ================= SCREEN 1: BUKA KADO ================= */
+document.getElementById('openBtn').addEventListener('click', e => {
+  ac(); tap(); twinkle();
+  document.getElementById('gift').classList.add('open');
+  const r = e.target.getBoundingClientRect();
+  burstAt(r.left + r.width / 2, r.top);
+  if(!musicOn){ musicOn = true; musicBtn.textContent = '🔊'; bgmBar(); musicTimer = setInterval(bgmBar, 2400); }
+  setTimeout(() => showScreen(2), 1100);
+});
+
+/* ================= SCREEN 2: KARTU MEMORI ================= */
+let flipped = 0;
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    if(card.classList.contains('flipped')) return;
+    tap(); twinkle();
+    card.classList.add('flipped');
+    flipped++;
+    const pop = document.getElementById('cardPopup');
+    pop.textContent = card.dataset.popup;
+    pop.classList.remove('hidden');
+    if(flipped === 3){
+      document.getElementById('toCake').classList.remove('hidden');
+      setTimeout(() => heartRain(), 300);
+    }
+  });
+});
+document.getElementById('toCake').addEventListener('click', () => { tap(); showScreen(3); });
+
+/* ================= SCREEN 3: TIUP LILIN ================= */
+let blows = 0;
+const blowBtn = document.getElementById('blowBtn');
+blowBtn.addEventListener('click', () => {
+  tap(); whoosh();
+  blows++;
+  const wrap = document.getElementById('cakeWrap');
+  if(blows === 1){ wrap.classList.add('flicker'); blowBtn.textContent = 'Tiup Lagi! 💨'; }
+  if(blows === 2){ wrap.classList.remove('flicker'); wrap.classList.add('small'); blowBtn.textContent = 'Sekali Lagi! 💨💨'; }
+  if(blows === 3){
+    wrap.classList.remove('small'); wrap.classList.add('out');
+    const flash = document.getElementById('flash');
+    flash.classList.add('on');
+    setTimeout(() => flash.classList.remove('on'), 350);
+    chime(); vib([60, 40, 120]);
+    blowBtn.classList.add('hidden');
+    document.getElementById('wishDialog').innerHTML =
+      '<div class="mini">🎉 LILIN PADAM!</div>Yeay! Semoga semua doa baik kamu di umur 21 ini terkabul ya sayang. <b>Aamiin.</b>';
+    document.getElementById('toGift').classList.remove('hidden');
+    heartRain();
+  }
+});
+document.getElementById('toGift').addEventListener('click', () => { tap(); showScreen(4); });
+
+/* ================= SCREEN 4: TOMBOL KABUR ================= */
+const noBtn = document.getElementById('noBtn');
+const zone = document.getElementById('trickZone');
+const teases = ['Eh, kabur! 🙈', 'Nggak bisa! 😝', 'Yah, ketangkep~', 'Udah deh, pencet yang pink 💗', 'Hehe, tombolnya lincah ya!'];
+let teaseIdx = 0;
+function escapeBtn(e){
+  if(e) e.preventDefault();
+  escapeBuzz();
+  const zr = zone.getBoundingClientRect();
+  const bw = noBtn.offsetWidth, bh = noBtn.offsetHeight;
+  const x = 8 + Math.random() * Math.max(20, zr.width - bw - 16);
+  const y = 8 + Math.random() * Math.max(20, zr.height - bh - 16);
+  noBtn.style.left = x + 'px';
+  noBtn.style.top = y + 'px';
+  noBtn.style.transform = 'none';
+  document.getElementById('tease').textContent = teases[teaseIdx % teases.length];
+  teaseIdx++;
+}
+noBtn.addEventListener('touchstart', escapeBtn, {passive: false});
+noBtn.addEventListener('mouseenter', escapeBtn);
+noBtn.addEventListener('click', escapeBtn);
+document.getElementById('yesBtn').addEventListener('click', e => {
+  tap(); twinkle();
+  const r = e.target.getBoundingClientRect();
+  burstAt(r.left + r.width / 2, r.top);
+  setTimeout(() => showScreen(5), 500);
+  setTimeout(reveal, 700);
+});
+
+/* ================= SCREEN 5: GRAND REVEAL ================= */
+function reveal(){
+  victoryPulse(); chime();
+  const colors = ['#FFB6C1', '#F4C2C2', '#ffffff', '#f472b6', '#e75480'];
+  if(window.confetti){
+    confetti({particleCount: 220, spread: 110, origin: {y: 0.6}, colors});
+    setTimeout(() => confetti({particleCount: 130, angle: 60, spread: 60, origin: {x: 0}, colors}), 250);
+    setTimeout(() => confetti({particleCount: 130, angle: 120, spread: 60, origin: {x: 1}, colors}), 400);
+    setTimeout(() => confetti({particleCount: 90, spread: 140, startVelocity: 38, origin: {y: 0.4}, colors}), 700);
+  } else {
+    heartRain();
+  }
+}
+document.getElementById('pdfBtn').addEventListener('click', () => {
+  tap();
+  const note = document.getElementById('pdfNote');
+  if(!window.jspdf){
+    note.textContent = 'PDF gagal dimuat, coba refresh halaman ya 💗';
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  doc.setDrawColor(244, 114, 182); doc.setLineWidth(1.2);
+  doc.roundedRect(12, 12, W - 24, H - 24, 6, 6);
+  doc.setDrawColor(255, 182, 193); doc.setLineWidth(0.6);
+  doc.roundedRect(16, 16, W - 32, H - 32, 4, 4);
+  doc.setTextColor(190, 24, 93);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(26);
+  doc.text('Surat Rahasia', W / 2, 42, {align: 'center'});
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(12); doc.setTextColor(90, 35, 51);
+  doc.text('Untuk gadis tercantik, 26 October 2026', W / 2, 54, {align: 'center'});
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(12.5);
+  const body = 'SURPRISE! Ini dia foto tergoyah dan tergemas abad ini! Kamu sama boneka hiu itu kombinasi yang paling lucu tau nggak?\n\nSelamat ulang tahun yang ke-21 sayang. Bunga, kue, dan semua ini nggak seberapa dibanding bahagianya aku punya kamu. Terima kasih udah jadi pacar chindo-ku yang paling cantik, imut, dan sabar. Tetap jadi gadis manis yang lembut, ceria, dan selalu bikin kangen ya!';
+  doc.text(doc.splitTextToSize(body, W - 48), 24, 76);
+  doc.setFont('helvetica', 'italic'); doc.setFontSize(13); doc.setTextColor(190, 24, 93);
+  doc.text('- dengan cinta, untukmu -', W / 2, H - 34, {align: 'center'});
+  doc.save('surat-rahasia-untukmu.pdf');
+  note.textContent = 'Surat rahasianya berhasil diunduh 💌';
+});
+</script>
+</body>
+</html>
