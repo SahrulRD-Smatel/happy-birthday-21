@@ -103,6 +103,11 @@
   .trick-zone #noBtn{top:96px;background:#fff;color:var(--soft);border:2px solid #ffd1e3;box-shadow:0 10px 22px rgba(231,84,128,.15)}
   .tease{min-height:1.6em;font-weight:700;color:var(--rose);margin-top:10px}
   /* final */
+  .birthday-reveal{position:relative;max-width:700px;margin:8px auto 22px;padding:13px 20px 16px;border:2px solid #ffc2d8;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,231,241,.86));box-shadow:0 14px 30px rgba(231,84,128,.15);overflow:hidden}
+  .birthday-reveal::before,.birthday-reveal::after{content:'✦';position:absolute;top:50%;color:#e75480;font-size:1.7rem;animation:revealSparkle 1.5s ease-in-out infinite}.birthday-reveal::before{left:18px}.birthday-reveal::after{right:18px;animation-delay:-.7s}
+  .birthday-reveal span{display:block;color:#c86f96;font-size:.78rem;font-weight:700;letter-spacing:.32em}.birthday-reveal strong{display:block;margin-top:3px;color:#c23871;font:700 clamp(2.5rem,7vw,5.3rem)/.95 'Playfair Display',serif;font-style:italic;letter-spacing:-.045em;text-shadow:0 5px 0 #fff,0 10px 20px rgba(231,84,128,.18)}.birthday-reveal small{display:block;margin-top:8px;color:#9f6b81;font-size:.8rem;letter-spacing:.12em;font-weight:600}
+  @keyframes revealSparkle{0%,100%{transform:translateY(-50%) scale(.75);opacity:.35}50%{transform:translateY(-50%) scale(1.2);opacity:1}}
+  @media (max-width:400px){.birthday-reveal{padding:11px 12px 13px;margin-bottom:18px}.birthday-reveal span{font-size:.6rem;letter-spacing:.2em}.birthday-reveal strong{font-size:2.25rem}.birthday-reveal small{font-size:.66rem}.birthday-reveal::before{left:8px}.birthday-reveal::after{right:8px}}
   .frame{position:relative;max-width:340px;margin:6px auto 0;background:#fff;padding:14px 14px 18px;border-radius:24px;border:3px solid #ffc2d8;box-shadow:0 24px 50px rgba(231,84,128,.3);animation:floatY 3.2s ease-in-out infinite}
   @keyframes floatY{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
   .frame::before,.frame::after{content:"🎀";position:absolute;font-size:2rem;z-index:2}
@@ -226,6 +231,7 @@
   <!-- SCREEN 5 -->
   <section class="screen" id="s5">
     <span class="tag">🎉 SURPRISE! 🎉</span>
+    <div class="birthday-reveal"><span>✦ THE BIG REVEAL ✦</span><strong>HAPPY BIRTHDAY, RURU!</strong><small>21 looks beautiful on you ✦</small></div>
     <h1 class="title script" style="margin-top:14px">Ini Dia Bonusnya!</h1>
     <div class="chibi-stage" id="chibiStage5"></div>
     <figure class="frame">
