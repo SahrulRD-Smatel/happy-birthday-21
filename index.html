@@ -209,10 +209,18 @@
   @media (max-width:760px){.stage{height:410px}.hero-title{font-size:clamp(2.4rem,11vw,4.7rem)}}
   @media (max-width:440px){.stage{height:340px}.hero-title{font-size:clamp(2.15rem,12vw,3.6rem);letter-spacing:.03em}.hero-title strong::after{margin-top:8px}.hero-kicker{font-size:.5rem}.hero-cake{bottom:42px}}
 
+
+  .hb-overlay{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.7);z-index:80;pointer-events:none;text-align:center;opacity:0;transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+  .hb-overlay.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .hb-overlay b{display:block;font:700 clamp(2.6rem,10vw,5.2rem)/.95 'Quicksand',sans-serif;letter-spacing:.04em;color:#b84d76;text-shadow:0 4px 0 #fff,0 12px 26px rgba(120,70,92,.25)}
+  .hb-overlay span{display:block;margin-top:12px;color:#9b6b80;font-weight:700;letter-spacing:.2em;font-size:.75rem;background:#fff;padding:.45rem 1rem;border-radius:999px;border:1px solid #e8c3d0}
+
 </style>
 </head>
 <body>
 <div class="marquee"><span>HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦ HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦&nbsp;</span><span>HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦ HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦&nbsp;</span></div>
+
+<div class="hb-overlay" id="hbOverlay"><b>HAPPY<br>BIRTHDAY</b><span>RURU • 21 TAHUN</span></div>
 
 <div class="wrap">
   <header class="hero">
@@ -277,6 +285,8 @@
       <figure class="polaroid" onclick="burstAt(event)"><img src="assets/foto-3.jpg" alt="Foto 3"><figcaption><b>FOTO 03</b>Rambut Baru, Pesona Sama</figcaption></figure>
       <figure class="polaroid" onclick="burstAt(event)"><img src="assets/foto-4.jpg" alt="Foto 4"><figcaption><b>FOTO 04</b>Duck Face Andalan</figcaption></figure>
       <figure class="polaroid" onclick="burstAt(event)"><img src="assets/foto-5.jpg" alt="Foto 5"><figcaption><b>FOTO 05</b>Senyum Iseng Favorit</figcaption></figure>
+      <figure class="polaroid" onclick="burstAt(event)"><img src="assets/foto-8.jpg" alt="Foto 8"><figcaption><b>FOTO 08</b>Duck Face di Spion</figcaption></figure>
+      <figure class="polaroid" onclick="burstAt(event)"><img src="assets/foto-9.jpg" alt="Foto 9"><figcaption><b>FOTO 09</b>Mirror Selfie Hari Ini</figcaption></figure>
     </div>
   </section>
 
@@ -577,6 +587,8 @@ document.addEventListener('mousemove', (e)=>{
     void cake.offsetWidth;
     cake.classList.add('spin-cake');
     if (typeof rainHearts === 'function') rainHearts();
+    const hb = document.getElementById('hbOverlay');
+    if (hb) { hb.classList.add('show'); clearTimeout(window._hbT); window._hbT = setTimeout(() => hb.classList.remove('show'), 3500); }
     if (typeof burstAt === 'function') burstAt({clientX:event.clientX, clientY:event.clientY});
   });
 })();
