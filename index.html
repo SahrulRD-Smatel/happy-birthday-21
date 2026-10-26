@@ -184,6 +184,31 @@
   @media (max-width:760px){.wrap{padding-left:14px;padding-right:14px}.hero{padding-top:32px}.hero-kicker{font-size:.58rem;letter-spacing:.2em}.hero-title{font-size:clamp(3rem,13vw,5.4rem)}.stage{height:430px;border-radius:24px;margin-top:24px}.hero-cake{transform:translateX(-50%) scale(.82);transform-origin:bottom center;bottom:52px}.balloon{transform:scale(.78)}.balloon-pink{left:5%}.balloon-blue{right:3%}.badge21{width:68px;height:68px;top:14px;right:14px}.badge21 b{font-size:1.5rem}.stage-hint{font-size:.62rem;letter-spacing:.08em}.cta .btn,.cta a{width:100%}.cta a .btn{width:100%}}
   @media (max-width:440px){.marquee{font-size:.58rem;letter-spacing:.12em}.hero-title{font-size:clamp(2.8rem,15vw,4.4rem)}.sticker{font-size:.6rem;letter-spacing:.08em;padding:.5rem .8rem}.stage{height:350px}.hero-cake{transform:translateX(-50%) scale(.61);bottom:42px}.hero-confetti{top:52px;font-size:.85rem}.balloon{transform:scale(.58)}.balloon-pink{left:0}.balloon-blue{right:0}.stage-hint{font-size:.55rem}.hero-ground{bottom:42px}.hero-glow{bottom:35px}}
 
+
+  /* editorial minimal hero refinement */
+  .hero-title{font-family:'Quicksand',sans-serif;font-size:clamp(2.55rem,7vw,5.9rem);font-weight:700;line-height:1;letter-spacing:.045em;text-transform:uppercase;color:#694b5c;text-shadow:none;transform:none}
+  .hero-title span{font-style:normal;color:#694b5c;font-weight:700}
+  .hero-title strong{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;color:#b84d76;-webkit-text-fill-color:#b84d76;letter-spacing:-.025em;background:none;text-shadow:none}
+  .hero-title strong::after{height:2px;width:42%;margin-top:12px;background:#e8afc2;opacity:.8}
+  .hero-kicker{color:#a8798d;letter-spacing:.22em;font-size:.64rem}
+  .stage{height:470px;background:linear-gradient(145deg,#fbf7f8 0%,#fff 48%,#f7f4fb 100%);border-color:#e8c3d0;box-shadow:0 24px 54px rgba(106,73,91,.13),inset 0 0 0 7px rgba(255,255,255,.82)}
+  .stage::before,.stage::after{content:'✦';color:#d79ab1;font-size:1.2rem;font-family:'Playfair Display',serif}
+  .hero-confetti{opacity:.26;color:#c98aa4;font-size:.9rem;letter-spacing:.45em}
+  .hero-glow{background:radial-gradient(ellipse,rgba(242,193,210,.48),rgba(245,235,242,.25) 48%,transparent 72%)}
+  .hero-cake{cursor:pointer;transition:filter .2s}
+  .hero-cake:hover{filter:drop-shadow(0 20px 16px rgba(137,73,107,.2)) brightness(1.02)}
+  .cake-tier-bottom{background:linear-gradient(#ef9fba,#d96c97)}
+  .cake-tier-mid{background:linear-gradient(#fff,#f0dbe4)}
+  .cake-tier-top{background:linear-gradient(#e982a8,#cf5d89)}
+  .balloon-pink{background:#e9a3bc}.balloon-lilac{background:#c9b7df}.balloon-yellow{background:#e9d39b}.balloon-blue{background:#a9cbd7}.balloon-rose{background:#d9799b}
+  .badge21{background:linear-gradient(145deg,#d77e9e,#b65078);box-shadow:0 10px 20px rgba(153,78,108,.2)}
+  .stage-hint{color:#9e7185;letter-spacing:.1em}
+  .spin-cake{animation:spinCake .8s cubic-bezier(.2,.9,.2,1)}
+  @keyframes spinCake{0%{transform:translateX(-50%) rotateY(0) scale(1)}50%{transform:translateX(-50%) rotateY(180deg) scale(1.04)}100%{transform:translateX(-50%) rotateY(360deg) scale(1)}}
+  .marquee{background:#714d60;box-shadow:none;font-size:.66rem;letter-spacing:.18em}
+  @media (max-width:760px){.stage{height:410px}.hero-title{font-size:clamp(2.4rem,11vw,4.7rem)}}
+  @media (max-width:440px){.stage{height:340px}.hero-title{font-size:clamp(2.15rem,12vw,3.6rem);letter-spacing:.03em}.hero-title strong::after{margin-top:8px}.hero-kicker{font-size:.5rem}.hero-cake{bottom:42px}}
+
 </style>
 </head>
 <body>
@@ -538,6 +563,21 @@ document.addEventListener('mousemove', (e)=>{
       message.style.color = '#d67ba0';
       input.select();
     }
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const cake = document.querySelector('.hero-cake');
+  if (!cake) return;
+  cake.addEventListener('click', (event) => {
+    event.stopPropagation();
+    cake.classList.remove('spin-cake');
+    void cake.offsetWidth;
+    cake.classList.add('spin-cake');
+    if (typeof rainHearts === 'function') rainHearts();
+    if (typeof burstAt === 'function') burstAt({clientX:event.clientX, clientY:event.clientY});
   });
 })();
 </script>
