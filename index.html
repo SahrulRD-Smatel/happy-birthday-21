@@ -110,6 +110,11 @@
   .trail{position:fixed;z-index:60;pointer-events:none;font-size:.95rem;animation:trailFade .8s ease-out forwards}
   @keyframes trailFade{to{transform:translateY(-26px) scale(.4);opacity:0}}
 
+  /* Big festive banner when the cake is clicked (the cake-click surprise previously only rained hearts) */
+  .hb-overlay{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.6);z-index:80;pointer-events:none;text-align:center;opacity:0;transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+  .hb-overlay.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .hb-overlay b{display:block;font-size:clamp(2.8rem,12vw,4.6rem);line-height:1;color:#be185d;text-shadow:3px 0 0 #fff,-3px 0 0 #fff,0 3px 0 #fff,0 -3px 0 #fff,0 14px 30px rgba(231,84,128,.4)}
+  .hb-overlay span{display:block;margin-top:10px;font-weight:700;letter-spacing:.28em;font-size:.85rem;color:#e75480;background:#fff;padding:.4rem 1rem;border-radius:999px;border:2px solid #ffc2d8}
   footer{text-align:center;margin-top:100px;color:#c98aa0;font-size:.9rem;letter-spacing:.12em;line-height:2}
   footer .big{font-size:2rem;color:var(--rose)}
   @media (max-width:560px){#cake3d{height:400px}.letter{padding:28px 22px}}
@@ -121,136 +126,28 @@
   .lovenote-body p{margin-bottom:34px}
   .lovenote-sign{margin-top:8px}
   .lovenote-name{font-family:'Pinyon Script',cursive;font-size:2.1rem;color:var(--rose)}
-
-  /* connected game gate */
-  .manus-gate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(91,35,51,.42);backdrop-filter:blur(8px)}
-  .manus-gate[hidden]{display:none}
-  .manus-gate-card{position:relative;width:min(430px,100%);padding:30px 24px 26px;border:3px solid #ffc2d8;border-radius:28px;background:#fffafb;box-shadow:0 28px 80px rgba(91,35,51,.3);text-align:center}
-  .manus-gate-card::before{content:"🎀";position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:2.4rem}
-  .manus-gate-card h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:#be185d;margin-bottom:9px}
-  .manus-gate-card p{color:#8a5a6b;line-height:1.65;margin-bottom:18px}
-  .manus-gate-card form{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-  .manus-gate-card input{flex:1 1 190px;min-width:0;border:2px solid #ffc2d8;border-radius:999px;padding:13px 16px;font:600 1rem 'Quicksand',sans-serif;color:#5b2333;background:#fff;outline:none;text-align:center}
-  .manus-gate-card input:focus{border-color:#e75480;box-shadow:0 0 0 4px rgba(244,114,182,.18)}
-  .manus-gate-card .gate-message{min-height:1.5em;margin:15px 0 0;color:#be185d;font-weight:700;font-size:.9rem}
-  .manus-gate-close{position:absolute;right:13px;top:10px;border:0;background:transparent;color:#be185d;font-size:1.5rem;cursor:pointer}
-  .manus-gate-hint{font-size:.78rem!important;letter-spacing:.08em;margin:13px 0 0!important;color:#c98aa0!important}
-
-
-  /* polished hero refresh */
-  body{background:linear-gradient(145deg,#fffafe 0%,#fff5f8 48%,#f8f3ff 100%)}
-  body::before{background-image:radial-gradient(#f5b7d0 1.5px,transparent 1.7px),radial-gradient(#d9c7ed 1.2px,transparent 1.5px);background-size:72px 72px,110px 110px;opacity:.2}
-  body::after{background:radial-gradient(700px 420px at 6% 0%,rgba(255,212,229,.72),transparent 68%),radial-gradient(680px 420px at 96% 20%,rgba(225,214,249,.62),transparent 68%),linear-gradient(180deg,transparent 65%,rgba(255,231,241,.5))}
-  .marquee{background:linear-gradient(90deg,#c94778,#df6e99,#c94778);border-bottom:0;padding:.62rem 0;font-size:.72rem;letter-spacing:.18em;box-shadow:0 4px 16px rgba(190,24,93,.16)}
-  .hero{padding:44px 10px 10px}
-  .hero-kicker{color:#b86a8b;font-size:.7rem;font-weight:700;letter-spacing:.28em;margin-bottom:12px}
-  .hero-title{display:flex;justify-content:center;align-items:baseline;gap:.22em;flex-wrap:wrap;font-family:'Playfair Display',serif;font-size:clamp(3.2rem,9vw,7.4rem);font-weight:500;line-height:.98;letter-spacing:-.045em;color:#6b304c;text-shadow:0 10px 22px rgba(190,24,93,.12);animation:heroIn .8s cubic-bezier(.2,1.3,.4,1) both}
-  .hero-title span{font-style:italic;color:#a4446f;font-weight:500}
-  .hero-title strong{font-style:italic;font-weight:700;background:linear-gradient(135deg,#e75480 12%,#b92e69 75%);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-title span{text-shadow:none}.hero-title strong{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#c94778;-webkit-text-fill-color:#c94778;text-shadow:none}
-  .hero-title strong::after{content:'';display:block;height:5px;margin:8px auto 0;width:62%;border-radius:99px;background:linear-gradient(90deg,transparent,#f4a1be,transparent);opacity:.65}
-  @keyframes heroIn{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-  .sticker{border:1px solid #efb2c9;padding:.58rem 1.25rem;font-size:.74rem;box-shadow:0 8px 22px rgba(190,24,93,.14);transform:none}
-  .stage{height:500px;margin-top:32px;background:linear-gradient(145deg,#fff 0%,#fff5f8 48%,#f6efff 100%);border:1px solid rgba(229,84,128,.34);border-radius:30px;box-shadow:0 26px 60px rgba(141,71,108,.16),inset 0 0 0 8px rgba(255,255,255,.75);overflow:hidden}
-  .stage::before,.stage::after{z-index:9;font-size:1.8rem;opacity:.75}
-  .stage::before{top:16px;left:18px}.stage::after{bottom:34px;right:18px}
-  #cake3d{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
-  .hero-art{position:absolute;inset:0;overflow:hidden}
-  .hero-glow{position:absolute;left:50%;bottom:38px;width:min(70%,470px);height:250px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(255,191,214,.7),rgba(248,225,240,.35) 48%,transparent 72%);filter:blur(8px)}
-  .hero-confetti{position:absolute;top:68px;left:50%;transform:translateX(-50%);width:100%;color:#e9a0ba;font-size:1.25rem;letter-spacing:.28em;white-space:nowrap;opacity:.72;animation:confettiFloat 3s ease-in-out infinite}
-  .hero-balloons{position:absolute;inset:0;max-width:720px;margin:auto}
-  .balloon{position:absolute;display:block;width:64px;height:78px;border-radius:50% 50% 48% 48%;box-shadow:inset -12px -14px 20px rgba(108,48,83,.12),inset 10px 9px 12px rgba(255,255,255,.4),0 12px 20px rgba(137,73,107,.1);animation:balloonFloat 4s ease-in-out infinite}
-  .balloon::before{content:'';position:absolute;left:50%;bottom:-5px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:inherit}
-  .balloon::after{content:'';position:absolute;left:50%;top:92%;width:1px;height:145px;background:linear-gradient(transparent,#c98aa5);transform:rotate(2deg);transform-origin:top}
-  .balloon-pink{left:12%;top:22%;background:#f5a4c3;animation-delay:-.8s}.balloon-lilac{left:28%;top:9%;background:#d8c4f0;width:58px;height:72px;animation-delay:-2s}.balloon-yellow{right:25%;top:13%;background:#f7dc95;width:58px;height:72px;animation-delay:-1.4s}.balloon-blue{right:9%;top:27%;background:#aed8eb;width:64px;height:78px;animation-delay:-2.7s}.balloon-rose{right:35%;top:29%;background:#ec769f;width:58px;height:72px;animation-delay:-1.8s}
-  @keyframes balloonFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(4deg)}}
-  @keyframes confettiFloat{0%,100%{transform:translateX(-50%) translateY(0);opacity:.55}50%{transform:translateX(-50%) translateY(-7px);opacity:.9}}
-  .hero-cake{position:absolute;left:50%;bottom:64px;width:310px;height:250px;transform:translateX(-50%);filter:drop-shadow(0 17px 14px rgba(137,73,107,.16));z-index:4}
-  .cake-plate{position:absolute;left:50%;bottom:7px;width:310px;height:18px;transform:translateX(-50%);border-radius:50%;background:linear-gradient(#fff,#f5d9e6);border:3px solid #f4b1c8;box-shadow:0 8px 0 rgba(218,144,174,.18)}
-  .cake-tier{position:absolute;left:50%;transform:translateX(-50%);border-radius:16px 16px 12px 12px;border:3px solid rgba(255,255,255,.82);box-shadow:inset 0 9px 0 rgba(255,255,255,.35)}
-  .cake-tier::after{content:'•  ✦  •  ✦  •';position:absolute;left:0;right:0;bottom:10px;text-align:center;color:rgba(255,255,255,.9);font-weight:700;letter-spacing:8px}
-  .cake-tier-bottom{bottom:24px;width:270px;height:70px;background:linear-gradient(#f7b0c9,#e979a5)}
-  .cake-tier-mid{bottom:82px;width:205px;height:62px;background:linear-gradient(#fff,#f6dce9)}
-  .cake-tier-top{bottom:134px;width:145px;height:54px;background:linear-gradient(#f595ba,#e35d92)}
-  .cake-candle{position:absolute;bottom:186px;left:calc(50% - 28px);width:8px;height:35px;border-radius:5px;background:repeating-linear-gradient(135deg,#fff 0 6px,#e980a7 6px 11px);z-index:3}.candle-two{left:calc(50% - 4px);height:42px}.candle-three{left:calc(50% + 20px);height:35px}
-  .cake-candle i{position:absolute;left:50%;top:-15px;width:12px;height:16px;transform:translateX(-50%);border-radius:55% 45% 55% 45%;background:#ffd36f;box-shadow:0 0 15px #ffc35a;animation:flameFlicker .7s ease-in-out infinite alternate}
-  @keyframes flameFlicker{to{transform:translateX(-50%) scale(1.18) rotate(6deg);filter:brightness(1.12)}}
-  .cake-sparkle{position:absolute;color:#eaa0b8;font-size:1.8rem;animation:sparklePop 2.3s ease-in-out infinite}.sparkle-one{left:7%;top:40%}.sparkle-two{right:6%;top:55%;animation-delay:-1.1s}
-  @keyframes sparklePop{0%,100%{opacity:.25;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.18) rotate(16deg)}}
-  .hero-ground{position:absolute;left:12%;right:12%;bottom:51px;height:1px;background:linear-gradient(90deg,transparent,#e8adc3,transparent);box-shadow:0 8px 24px 12px rgba(209,137,170,.2)}
-  .stage-hint{position:absolute;z-index:10;left:0;right:0;bottom:12px;padding:0;font-size:.73rem;color:#a56c87;letter-spacing:.14em}
-  .badge21{z-index:11;width:78px;height:78px;top:18px;right:20px;background:linear-gradient(145deg,#f28caf,#c74779);border:3px solid rgba(255,255,255,.9);box-shadow:0 12px 24px rgba(190,24,93,.26)}
-  .badge21 b{font-size:1.75rem}.badge21 span{font-size:.52rem}
-  .cta{gap:12px;margin-top:26px}.btn{box-shadow:0 10px 22px rgba(190,24,93,.22);font-size:.92rem;padding:.86rem 1.5rem}.btn:hover{box-shadow:0 14px 28px rgba(190,24,93,.28)}
-  @media (max-width:760px){.wrap{padding-left:14px;padding-right:14px}.hero{padding-top:32px}.hero-kicker{font-size:.58rem;letter-spacing:.2em}.hero-title{font-size:clamp(3rem,13vw,5.4rem)}.stage{height:430px;border-radius:24px;margin-top:24px}.hero-cake{transform:translateX(-50%) scale(.82);transform-origin:bottom center;bottom:52px}.balloon{transform:scale(.78)}.balloon-pink{left:5%}.balloon-blue{right:3%}.badge21{width:68px;height:68px;top:14px;right:14px}.badge21 b{font-size:1.5rem}.stage-hint{font-size:.62rem;letter-spacing:.08em}.cta .btn,.cta a{width:100%}.cta a .btn{width:100%}}
-  @media (max-width:440px){.marquee{font-size:.58rem;letter-spacing:.12em}.hero-title{font-size:clamp(2.8rem,15vw,4.4rem)}.sticker{font-size:.6rem;letter-spacing:.08em;padding:.5rem .8rem}.stage{height:350px}.hero-cake{transform:translateX(-50%) scale(.61);bottom:42px}.hero-confetti{top:52px;font-size:.85rem}.balloon{transform:scale(.58)}.balloon-pink{left:0}.balloon-blue{right:0}.stage-hint{font-size:.55rem}.hero-ground{bottom:42px}.hero-glow{bottom:35px}}
-
-
-  /* editorial minimal hero refinement */
-  .hero-title{font-family:'Quicksand',sans-serif;font-size:clamp(2.55rem,7vw,5.9rem);font-weight:700;line-height:1;letter-spacing:.045em;text-transform:uppercase;color:#694b5c;text-shadow:none;transform:none}
-  .hero-title span{font-style:normal;color:#694b5c;font-weight:700}
-  .hero-title strong{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;color:#b84d76;-webkit-text-fill-color:#b84d76;letter-spacing:-.025em;background:none;text-shadow:none}
-  .hero-title strong::after{height:2px;width:42%;margin-top:12px;background:#e8afc2;opacity:.8}
-  .hero-kicker{color:#a8798d;letter-spacing:.22em;font-size:.64rem}
-  .stage{height:470px;background:linear-gradient(145deg,#fbf7f8 0%,#fff 48%,#f7f4fb 100%);border-color:#e8c3d0;box-shadow:0 24px 54px rgba(106,73,91,.13),inset 0 0 0 7px rgba(255,255,255,.82)}
-  .stage::before,.stage::after{content:'✦';color:#d79ab1;font-size:1.2rem;font-family:'Playfair Display',serif}
-  .hero-confetti{opacity:.26;color:#c98aa4;font-size:.9rem;letter-spacing:.45em}
-  .hero-glow{background:radial-gradient(ellipse,rgba(242,193,210,.48),rgba(245,235,242,.25) 48%,transparent 72%)}
-  .hero-cake{cursor:pointer;transition:filter .2s}
-  .hero-cake:hover{filter:drop-shadow(0 20px 16px rgba(137,73,107,.2)) brightness(1.02)}
-  .cake-tier-bottom{background:linear-gradient(#ef9fba,#d96c97)}
-  .cake-tier-mid{background:linear-gradient(#fff,#f0dbe4)}
-  .cake-tier-top{background:linear-gradient(#e982a8,#cf5d89)}
-  .balloon-pink{background:#e9a3bc}.balloon-lilac{background:#c9b7df}.balloon-yellow{background:#e9d39b}.balloon-blue{background:#a9cbd7}.balloon-rose{background:#d9799b}
-  .badge21{background:linear-gradient(145deg,#d77e9e,#b65078);box-shadow:0 10px 20px rgba(153,78,108,.2)}
-  .stage-hint{color:#9e7185;letter-spacing:.1em}
-  .spin-cake{animation:spinCake .8s cubic-bezier(.2,.9,.2,1)}
-  @keyframes spinCake{0%{transform:translateX(-50%) rotateY(0) scale(1)}50%{transform:translateX(-50%) rotateY(180deg) scale(1.04)}100%{transform:translateX(-50%) rotateY(360deg) scale(1)}}
-  .marquee{background:#714d60;box-shadow:none;font-size:.66rem;letter-spacing:.18em}
-  @media (max-width:760px){.stage{height:410px}.hero-title{font-size:clamp(2.4rem,11vw,4.7rem)}}
-  @media (max-width:440px){.stage{height:340px}.hero-title{font-size:clamp(2.15rem,12vw,3.6rem);letter-spacing:.03em}.hero-title strong::after{margin-top:8px}.hero-kicker{font-size:.5rem}.hero-cake{bottom:42px}}
-
-
-  .hb-overlay{will-change:opacity,transform;position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.7);z-index:80;pointer-events:none;text-align:center;opacity:0;transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
-  .hb-overlay.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  .hb-overlay b{display:block;font:700 clamp(2.6rem,10vw,5.2rem)/.95 'Quicksand',sans-serif;letter-spacing:.04em;color:#b84d76;text-shadow:0 4px 0 #fff,0 12px 26px rgba(120,70,92,.25)}
-  .hb-overlay span{display:block;margin-top:12px;color:#9b6b80;font-weight:700;letter-spacing:.2em;font-size:.75rem;background:#fff;padding:.45rem 1rem;border-radius:999px;border:1px solid #e8c3d0}
-
 </style>
 </head>
 <body>
 <div class="marquee"><span>HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦ HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦&nbsp;</span><span>HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦ HAPPY BIRTHDAY ✦ 21 TAHUN ✦ 26 OCTOBER 2026 ✦ UNTUKMU ✦&nbsp;</span></div>
-
-<div class="hb-overlay" id="hbOverlay"><b>HAPPY<br>BIRTHDAY</b><span>RURU • 21 TAHUN</span></div>
+<div class="hb-overlay" id="hbOverlay"><b>🎉 HAPPY<br>BIRTHDAY 🎉</b><span>RURU • 21 TAHUN</span></div>
 
 <div class="wrap">
   <header class="hero">
-    <div class="hero-kicker">✦ A LITTLE BIRTHDAY MAGIC FOR RURU ✦</div>
-    <h1 class="hero-title"><span>Happy</span> <strong>Birthday</strong></h1>
+    <h1 class="script">Happy Birthday</h1>
     <div style="margin-top:18px"><span class="sticker">🎀 21 TAHUN • 26 OCTOBER 2026 🎀</span></div>
 
     <div class="stage" id="stage">
       <div class="badge21"><b>21</b><span>TAHUN</span></div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="hero-glow"></div>
-        <div class="hero-confetti">✦　·　✧　·　✦　·　✧　·　✦</div>
-        <div class="hero-balloons"><i class="balloon balloon-pink"></i><i class="balloon balloon-lilac"></i><i class="balloon balloon-yellow"></i><i class="balloon balloon-blue"></i><i class="balloon balloon-rose"></i></div>
-        <div class="hero-cake">
-          <div class="cake-candle"><i></i></div><div class="cake-candle candle-two"><i></i></div><div class="cake-candle candle-three"><i></i></div>
-          <div class="cake-tier cake-tier-top"></div><div class="cake-tier cake-tier-mid"></div><div class="cake-tier cake-tier-bottom"></div><div class="cake-plate"></div>
-          <span class="cake-sparkle sparkle-one">✦</span><span class="cake-sparkle sparkle-two">✧</span>
-        </div>
-        <div class="hero-ground"></div>
-      </div>
-      <canvas id="cake3d" data-disabled="true" aria-hidden="true"></canvas>
+      <canvas id="cake3d"></canvas>
       <div class="cake-fallback" id="cakeFallback">🎂<div style="font-size:1rem;font-family:'Quicksand',sans-serif;font-weight:700;color:#be185d">Kue ulang tahunmu!</div></div>
-      <div class="stage-hint">✦ A birthday cake made with extra love ✦</div>
+      <div class="stage-hint">👆 Geser kue untuk memutar • Klik kue untuk kejutan 💗</div>
     </div>
 
     <p style="margin-top:22px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;color:var(--soft)">Hari ini adalah harimu, Ruru. Dua puluh satu tahun yang lalu, dunia kedatangan seseorang yang sampai sekarang masih jadi alasan banyak senyum.</p>
     <div class="cta">
       <button class="btn" onclick="rainHearts()">💗 Tabur Hati</button>
-      <a href="game.html" style="text-decoration:none"><button class="btn">🎮 Game 1 — Mainkan Quest HTML</button></a>
-      <button class="btn ghost" id="openManusGate" type="button">🔐 Game 2 — Secret Quest Manus</button>
+      <a href="game.html" style="text-decoration:none"><button class="btn">🎮 Mainkan Quest Ulang Tahun</button></a>
       <button class="btn ghost" onclick="document.getElementById('surat').scrollIntoView({behavior:'smooth'})">Baca Surat untuk Ruru ↓</button>
     </div>
   </header>
@@ -303,11 +200,11 @@
     <div class="bonus">
       <span class="tag">✦ FOTO BONUS SPESIAL ✦</span>
       <h2 class="script">Bonus Cantik</h2>
-      <p>Foto ini sengaja dipisah, karena terlalu gemas untuk dicampur dengan yang lain. Kamu, bersama teman hiu kesayanganmu — bukti kalau sisi lembutmu itu yang paling menggemaskan.</p>
+      <p>Foto ini sengaja dipisah, karena terlalu gemas untuk dicampur dengan yang lain. Kamu, bersama Hiuiu kesayanganmu — bukti kalau sisi lembutmu itu yang paling menggemaskan.</p>
       <figure onclick="burstAt(event)">
-        <img src="assets/foto-bonus.jpg" alt="Foto bonus bersama boneka hiu">
+        <img src="assets/foto-bonus.jpg" alt="Foto bonus bersama Hiuiu">
       </figure>
-      <p style="margin-top:22px;font-family:'Playfair Display',serif;font-style:italic">“Kamu &amp; Hiu — duo paling menggemaskan.”</p>
+      <p style="margin-top:22px;font-family:'Playfair Display',serif;font-style:italic">“Kamu &amp; Hiuiu — duo paling menggemaskan.”</p>
     </div>
   </section>
 
@@ -326,8 +223,8 @@ document.getElementById('reasons').innerHTML = reasons.map((r,i)=>
 
 /* ---------- bursts, rain, glitter trail ---------- */
 const hearts = ['💗','💖','💕','🎀','✨'];
-function burstAt(e, count=10){
-  for(let i=0;i<count;i++){
+function burstAt(e){
+  for(let i=0;i<10;i++){
     const s=document.createElement('span');
     s.className='burst'; s.textContent=hearts[Math.floor(Math.random()*hearts.length)];
     s.style.left=(e.clientX+(Math.random()*100-50))+'px';
@@ -339,8 +236,8 @@ document.addEventListener('click', (e)=>{
   if(e.target.closest('.polaroid, figure, .bonus, .btn, #cake3d')) return;
   burstAt(e);
 });
-function rainHearts(count=40){
-  for(let i=0;i<count;i++){
+function rainHearts(){
+  for(let i=0;i<40;i++){
     const s=document.createElement('span');
     s.className='rain'; s.textContent=hearts[Math.floor(Math.random()*hearts.length)];
     s.style.left=Math.random()*100+'vw';
@@ -363,7 +260,6 @@ document.addEventListener('mousemove', (e)=>{
 /* ---------- 3D CAKE STAGE (self-hosted Three.js r128) ---------- */
 (function(){
   const canvas = document.getElementById('cake3d');
-  if (!canvas || canvas.dataset.disabled === 'true') return;
   const fallback = document.getElementById('cakeFallback');
   try{
     const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
@@ -488,6 +384,8 @@ document.addEventListener('mousemove', (e)=>{
     canvas.addEventListener('click', e=>{
       flamePulse = 1;
       rainHearts();
+      const hb = document.getElementById('hbOverlay');
+      if(hb){ hb.classList.add('show'); clearTimeout(window._hbT); window._hbT = setTimeout(()=>hb.classList.remove('show'), 3500); }
       const r = canvas.getBoundingClientRect();
       burstAt({clientX: r.left + r.width/2, clientY: r.top + 120});
     });
@@ -531,67 +429,6 @@ document.addEventListener('mousemove', (e)=>{
     canvas.style.display = 'none';
     fallback.style.display = 'block';
   }
-})();
-</script>
-
-<div class="manus-gate" id="manusGate" hidden>
-  <div class="manus-gate-card" role="dialog" aria-modal="true" aria-labelledby="manusGateTitle">
-    <button class="manus-gate-close" id="closeManusGate" type="button" aria-label="Tutup">×</button>
-    <h3 id="manusGateTitle">Eits… masih rahasia ✦</h3>
-    <p>Game 2 belum boleh dibuka sembarang orang.<br>Sebutkan nama kode rahasianya dulu.</p>
-    <form id="manusGateForm">
-      <input id="manusGateInput" autocomplete="off" placeholder="Tulis nama kodenya…" aria-label="Nama kode rahasia">
-      <button class="btn" type="submit">Buka Game 2</button>
-    </form>
-    <p class="gate-message" id="manusGateMessage" aria-live="polite"></p>
-    <p class="manus-gate-hint">Satu nama. Satu secret quest. ✨</p>
-  </div>
-</div>
-<script>
-(function(){
-  const open = document.getElementById('openManusGate');
-  const gate = document.getElementById('manusGate');
-  const close = document.getElementById('closeManusGate');
-  const form = document.getElementById('manusGateForm');
-  const input = document.getElementById('manusGateInput');
-  const message = document.getElementById('manusGateMessage');
-  if(!open || !gate || !close || !form || !input || !message) return;
-  const showGate = () => { gate.hidden = false; message.textContent = ''; input.value = ''; setTimeout(() => input.focus(), 40); };
-  const hideGate = () => { gate.hidden = true; };
-  open.addEventListener('click', showGate);
-  close.addEventListener('click', hideGate);
-  gate.addEventListener('click', event => { if(event.target === gate) hideGate(); });
-  document.addEventListener('keydown', event => { if(event.key === 'Escape' && !gate.hidden) hideGate(); });
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const answer = input.value.trim().toLowerCase().replace(/\s+/g, '');
-    if(answer === 'dhani'){
-      message.textContent = 'Benar ✦ Secret Quest terbuka…';
-      message.style.color = '#be185d';
-      setTimeout(() => { window.location.href = 'manus/index.html'; }, 420);
-    } else {
-      message.textContent = 'Belum tepat. Coba lagi ✦';
-      message.style.color = '#d67ba0';
-      input.select();
-    }
-  });
-})();
-</script>
-
-<script>
-(() => {
-  const cake = document.querySelector('.hero-cake');
-  if (!cake) return;
-  cake.addEventListener('click', (event) => {
-    event.stopPropagation();
-    cake.classList.remove('spin-cake');
-    void cake.offsetWidth;
-    cake.classList.add('spin-cake');
-    if (typeof rainHearts === 'function') rainHearts(20);
-    const hb = document.getElementById('hbOverlay');
-    if (hb) { hb.classList.add('show'); clearTimeout(window._hbT); window._hbT = setTimeout(() => hb.classList.remove('show'), 3500); }
-    if (typeof burstAt === 'function') burstAt({clientX:event.clientX, clientY:event.clientY}, 6);
-  });
 })();
 </script>
 </body>
