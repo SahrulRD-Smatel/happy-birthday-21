@@ -1,4 +1,4 @@
-# 🎀 Happy Birthday 21 🎀
+# 🎀 Happy Birthday 21 - Ruru Nicole Putri 🎀
 
 Website ulang tahun 3D romantis bertema coquette pink — dibuat untuk merayakan ulang tahun ke-21 pada **26 October 2026**.
 
