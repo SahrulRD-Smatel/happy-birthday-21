@@ -80,6 +80,7 @@ sayangku.`,step:`Unlocked`}},i=`welcome`,a=new Set,o=0,s=0,c,l=0;function u(){le
       <div class="scene-actions proposal-actions"><button class="primary-button glow-button" type="button" data-action="reveal">SIAP BANGET! <span>🥰</span></button><div class="escape-zone" id="escape-zone"><button class="secondary-button runaway-button" id="runaway-button" type="button">Nggak ah, malu <span>🙈</span></button></div></div>
       <p class="micro-copy"><span class="sparkle-dot">✦</span> Hint: pilihan yang benar biasanya terasa paling seru</p>
     `:`
+    <div class="grand-birthday"><span>✦ THE BIG REVEAL ✦</span><strong>HAPPY BIRTHDAY, RURU!</strong><small>21 looks beautiful on you ✦</small></div>
     <div class="final-badge"><span>21</span><small>YEARS OF<br />BEING<br />ADORABLE</small></div>
     <p class="scene-intro letter-intro">${e.replace(/\n\n/g,`<br /><br />`)}</p>
     <div class="final-gallery" aria-label="Foto tambahan dari galeri">${[`foto-4.jpg`,`foto-5.jpg`,`foto-6.jpg`,`foto-7.jpg`].map((e,t)=>`<img src="./photos/${e}" alt="Foto tambahan ${t+4}" loading="lazy" />`).join(``)}</div>
