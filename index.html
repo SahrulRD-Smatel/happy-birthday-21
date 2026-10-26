@@ -210,7 +210,7 @@
   @media (max-width:440px){.stage{height:340px}.hero-title{font-size:clamp(2.15rem,12vw,3.6rem);letter-spacing:.03em}.hero-title strong::after{margin-top:8px}.hero-kicker{font-size:.5rem}.hero-cake{bottom:42px}}
 
 
-  .hb-overlay{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.7);z-index:80;pointer-events:none;text-align:center;opacity:0;transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+  .hb-overlay{will-change:opacity,transform;position:fixed;left:50%;top:38%;transform:translate(-50%,-50%) scale(.7);z-index:80;pointer-events:none;text-align:center;opacity:0;transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
   .hb-overlay.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
   .hb-overlay b{display:block;font:700 clamp(2.6rem,10vw,5.2rem)/.95 'Quicksand',sans-serif;letter-spacing:.04em;color:#b84d76;text-shadow:0 4px 0 #fff,0 12px 26px rgba(120,70,92,.25)}
   .hb-overlay span{display:block;margin-top:12px;color:#9b6b80;font-weight:700;letter-spacing:.2em;font-size:.75rem;background:#fff;padding:.45rem 1rem;border-radius:999px;border:1px solid #e8c3d0}
@@ -241,7 +241,7 @@
         </div>
         <div class="hero-ground"></div>
       </div>
-      <canvas id="cake3d" aria-hidden="true"></canvas>
+      <canvas id="cake3d" data-disabled="true" aria-hidden="true"></canvas>
       <div class="cake-fallback" id="cakeFallback">🎂<div style="font-size:1rem;font-family:'Quicksand',sans-serif;font-weight:700;color:#be185d">Kue ulang tahunmu!</div></div>
       <div class="stage-hint">✦ A birthday cake made with extra love ✦</div>
     </div>
@@ -326,8 +326,8 @@ document.getElementById('reasons').innerHTML = reasons.map((r,i)=>
 
 /* ---------- bursts, rain, glitter trail ---------- */
 const hearts = ['💗','💖','💕','🎀','✨'];
-function burstAt(e){
-  for(let i=0;i<10;i++){
+function burstAt(e, count=10){
+  for(let i=0;i<count;i++){
     const s=document.createElement('span');
     s.className='burst'; s.textContent=hearts[Math.floor(Math.random()*hearts.length)];
     s.style.left=(e.clientX+(Math.random()*100-50))+'px';
@@ -339,8 +339,8 @@ document.addEventListener('click', (e)=>{
   if(e.target.closest('.polaroid, figure, .bonus, .btn, #cake3d')) return;
   burstAt(e);
 });
-function rainHearts(){
-  for(let i=0;i<40;i++){
+function rainHearts(count=40){
+  for(let i=0;i<count;i++){
     const s=document.createElement('span');
     s.className='rain'; s.textContent=hearts[Math.floor(Math.random()*hearts.length)];
     s.style.left=Math.random()*100+'vw';
@@ -363,6 +363,7 @@ document.addEventListener('mousemove', (e)=>{
 /* ---------- 3D CAKE STAGE (self-hosted Three.js r128) ---------- */
 (function(){
   const canvas = document.getElementById('cake3d');
+  if (!canvas || canvas.dataset.disabled === 'true') return;
   const fallback = document.getElementById('cakeFallback');
   try{
     const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
@@ -586,10 +587,10 @@ document.addEventListener('mousemove', (e)=>{
     cake.classList.remove('spin-cake');
     void cake.offsetWidth;
     cake.classList.add('spin-cake');
-    if (typeof rainHearts === 'function') rainHearts();
+    if (typeof rainHearts === 'function') rainHearts(20);
     const hb = document.getElementById('hbOverlay');
     if (hb) { hb.classList.add('show'); clearTimeout(window._hbT); window._hbT = setTimeout(() => hb.classList.remove('show'), 3500); }
-    if (typeof burstAt === 'function') burstAt({clientX:event.clientX, clientY:event.clientY});
+    if (typeof burstAt === 'function') burstAt({clientX:event.clientX, clientY:event.clientY}, 6);
   });
 })();
 </script>
